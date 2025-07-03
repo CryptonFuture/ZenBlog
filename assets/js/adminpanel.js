@@ -16,5 +16,11 @@
       $('#sidebar').toggleClass('active');
   });
 
+  const accessToken = localStorage.getItem('token')
+
+	if (!accessToken) {
+		window.location.href = '/';
+	}
+
 })(jQuery);
 
