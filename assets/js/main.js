@@ -6,7 +6,7 @@
 * License: https://bootstrapmade.com/license/
 */
 
-(function() {
+(function () {
   "use strict";
 
   /**
@@ -50,7 +50,7 @@
    * Toggle mobile nav dropdowns
    */
   document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
+    navmenu.addEventListener('click', function (e) {
       e.preventDefault();
       this.parentNode.classList.toggle('active');
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
@@ -106,7 +106,7 @@
    * Init swiper sliders
    */
   function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
+    document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
       let config = JSON.parse(
         swiperElement.querySelector(".swiper-config").innerHTML.trim()
       );
@@ -121,4 +121,104 @@
 
   window.addEventListener("load", initSwiper);
 
+  $(document).ready(function () {
+    $('#openModal').on('click', function () {
+      const modalHtml = `
+            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Login Form</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="email" class="col-form-label">Email</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="col-form-label">Password</label>
+            <input type="password" class="form-control" id="password">
+          </div>
+
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button onclick="login()" type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+      `
+      $('body').append(modalHtml)
+
+      const modal = new bootstrap.Modal(document.getElementById('Modal'))
+      modal.show()
+
+      $('#Modal').on('hidden.bs.modal', function () {
+        $(this).remove()
+      })
+    })
+  })
+
 })();
+
+const prefix = 'api/v1'
+const baseUrl = `http://localhost:8000/${prefix}`
+
+async function login() {
+  const email = document.getElementById('email').value
+  const password = document.getElementById('password').value
+
+  const res = await fetch(`${baseUrl}/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email,
+      password
+    })
+  })
+
+  const data = await res.json();
+
+  if (res.ok) {
+
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', data.user.id);
+    localStorage.setItem('email', data.user.email);
+    localStorage.setItem('tokenType', data.user.tokenType);
+
+    $('#Modal').modal('hide');
+
+    document.getElementById('email').value = ""
+    document.getElementById('password').value = ""
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Successful',
+      text: data.message,
+      timer: 2000,
+      showConfirmButton: false,
+      timerProgressBar: true
+    }).then(() => {
+      // document.getElementById('openModal').style.display = 'none';
+      // document.getElementById('userDropdown').style.display = 'inline-block';
+
+      window.location.href = 'adminpanel.html';
+
+    });
+
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Failed',
+      text: data.message || 'Invalid credentials'
+    });
+  }
+
+}
