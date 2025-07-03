@@ -182,6 +182,12 @@
     })
   })
 
+  const accessToken = localStorage.getItem('token')
+
+	if (accessToken) {
+		window.location.href = '/adminpanel.html';
+	}
+
 })();
 
 const prefix = 'api/v1'
