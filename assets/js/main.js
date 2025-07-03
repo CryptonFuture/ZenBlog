@@ -121,6 +121,18 @@
 
   window.addEventListener("load", initSwiper);
 
+   window.addEventListener('DOMContentLoaded', () => {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    const rememberedPassword = localStorage.getItem('rememberedPassword');
+    const rememberMe = localStorage.getItem('rememberMe') === 'true';
+
+    if (rememberMe && rememberedEmail && rememberedPassword) {
+      document.getElementById('email').value = rememberedEmail;
+      document.getElementById('password').value = rememberedPassword;
+      document.getElementById('rememberMe').checked = true;
+    }   
+  })
+
   $(document).ready(function () {
     $('#openModal').on('click', function () {
       const modalHtml = `
@@ -141,7 +153,13 @@
             <label for="password" class="col-form-label">Password</label>
             <input type="password" class="form-control" id="password">
           </div>
-
+          <div class="mb-3">
+              <label for="edit-post-status" class="col-form-label">Remember me:</label>
+              <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="rememberMe" name="publish">
+                    <label class="form-check-label" for="publishCheck"></label>
+              </div>
+            </div>
           
         </form>
       </div>
@@ -172,6 +190,7 @@ const baseUrl = `http://localhost:8000/${prefix}`
 async function login() {
   const email = document.getElementById('email').value
   const password = document.getElementById('password').value
+  const rememberMe = document.getElementById('rememberMe').checked
 
   const res = await fetch(`${baseUrl}/login`, {
     method: 'POST',
@@ -192,6 +211,16 @@ async function login() {
     localStorage.setItem('user', data.user.id);
     localStorage.setItem('email', data.user.email);
     localStorage.setItem('tokenType', data.user.tokenType);
+
+     if (rememberMe) {
+      localStorage.setItem('rememberedEmail', email);
+      localStorage.setItem('rememberedPassword', password);
+      localStorage.setItem('rememberMe', 'true');
+    } else {
+      localStorage.removeItem('rememberedEmail');
+      localStorage.removeItem('rememberedPassword');
+      localStorage.setItem('rememberMe', 'false');
+    }
 
     $('#Modal').modal('hide');
 
