@@ -104,7 +104,7 @@ async function fetchPost() {
                   <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
                   <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"> <i
                         class="fas fa-edit me-2 text-info"></i> Edit</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a>
+                  <li><a onclick="deletePost('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a>
                   </li>
                 </ul>
 
@@ -248,7 +248,54 @@ async function fetchUsers() {
 
 
 
+async function deletePost(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this tag?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
 
+	if(result.isConfirmed) {
+	const res = await fetch(`${baseUrl}/deletePost/${id}`, {
+		method: 'DELETE',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+	
+
+	const data = await res.json()
+
+	if (res.ok) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Delete Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			}).then(() => {
+				fetchPost();
+			});
+
+		} else {
+			const err = await res.json();
+			Swal.fire({
+				icon: 'error',
+				title: `Failed to delete post: ${err.error || res.statusText}`,
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+		}
+}
 
 
 
