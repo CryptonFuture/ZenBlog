@@ -297,7 +297,25 @@ async function deletePost(id) {
 		}
 }
 
+function setupAutoLogout() {
+	const expiryTime = localStorage.getItem('tokenExpiry');
+	
+	if (!expiryTime) return;
 
+	const timeLeft = expiryTime - Date.now();
+
+	if (timeLeft <= 0) {
+		logout();
+	} else {
+		setTimeout(() => {
+			logout();
+		}, timeLeft);
+	}
+}
+
+window.addEventListener('load', () => {
+	setupAutoLogout();
+});
 
 
 async function logout() {
@@ -317,6 +335,7 @@ async function logout() {
 		localStorage.removeItem('rememberMe')
 		localStorage.removeItem('rememberedEmail');
 		localStorage.removeItem('rememberedPassword');
+		localStorage.removeItem('tokenExpiry');
 
 		Swal.fire({
 			icon: 'success',
