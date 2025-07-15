@@ -189,17 +189,17 @@
                 <form>
                   <div class="mb-3">
                     <label for="recipient-name" class="col-form-label">Title:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <input type="text" class="form-control" id="post-title">
                   </div>
                   <div class="mb-3">
                     <label for="message-text" class="col-form-label">Description</label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <textarea class="form-control" id="post-description"></textarea>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button onclick="createPost()" type="button" class="btn btn-primary">Submit</button>
               </div>
             </div>
           </div>
