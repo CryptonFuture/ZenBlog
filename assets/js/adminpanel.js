@@ -284,10 +284,9 @@ async function deletePost(id) {
 			});
 
 		} else {
-			const err = await res.json();
 			Swal.fire({
 				icon: 'error',
-				title: `Failed to delete post: ${err.error || res.statusText}`,
+				title: `Failed to delete post: ${data.error}`,
 				text: data.error,
 				timer: 2000,
 				showConfirmButton: false,
@@ -295,6 +294,48 @@ async function deletePost(id) {
 			})
 		}
 		}
+}
+
+async function createPost() {
+	const title = document.getElementById('post-title').value
+	const description = document.getElementById('post-description').value
+
+	const res = await fetch(`${baseUrl}/addPost`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({title, description})
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Create Post Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPost();
+			$('#exampleModal').modal('hide');
+			document.getElementById('title').value = ""
+			document.getElementById('description').value = ""
+		});
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${data.error}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
 }
 
 function setupAutoLogout() {
@@ -353,7 +394,7 @@ async function logout() {
 		Swal.fire({
 			icon: 'error',
 			title: 'Logout Failed',
-			text: data.message
+			text: data.error
 		});
 	}
 }
