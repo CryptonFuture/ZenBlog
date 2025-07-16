@@ -150,7 +150,7 @@ async function fetchTags() {
 					<ul class="dropdown-menu">
 					  <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
 					  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edittag"> <i class="fas fa-edit me-2 text-info"></i> Edit</a></li>
-					  <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+					  <li><a onclick="deleteTag('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -194,7 +194,7 @@ async function fetchPages() {
 					<ul class="dropdown-menu">
 					  <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
 					  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editpage"> <i class="fas fa-edit me-2 text-info"></i> Edit</a></li>
-					  <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+					  <li><a onclick="deletePages('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -238,7 +238,7 @@ async function fetchUsers() {
 					<ul class="dropdown-menu">
 					  <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
 					  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edituser"> <i class="fas fa-edit me-2 text-info"></i> Edit</a></li>
-					  <li><a class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+					  <li><a onclick="deleteUser('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -357,6 +357,154 @@ function setupAutoLogout() {
 window.addEventListener('load', () => {
 	setupAutoLogout();
 });
+
+
+async function deleteTag(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this tag?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	});
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deleteTag/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+		const data = await res.json();
+
+		if (res.ok) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Deleted Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			}).then(() => {
+				fetchTags();
+			});
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Failed to delete tag',
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			});
+		}
+	}
+}
+
+
+
+
+async function deleteUser(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this tag?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	});
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deleteUser/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+		const data = await res.json();
+
+		if (res.ok) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Deleted Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			}).then(() => {
+				fetchUsers();
+			});
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Failed to delete tag',
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			});
+		}
+	}
+}
+
+
+
+async function deletePages(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this tag?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	});
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deletePage/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+		const data = await res.json();
+
+		if (res.ok) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Deleted Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			}).then(() => {
+				fetchPages();
+			});
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Failed to delete tag',
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			});
+		}
+	}
+}
+
+
+
+
 
 
 async function logout() {
