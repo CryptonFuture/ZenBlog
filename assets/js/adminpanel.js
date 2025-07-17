@@ -511,7 +511,10 @@ async function logout() {
 	const userId = localStorage.getItem('user')
 
 	const res = await fetch(`${baseUrl}/logout?id=${userId}`, {
-		method: 'POST'
+		method: 'POST',
+		headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
 	})
 
 	const data = await res.json()
