@@ -338,6 +338,188 @@ async function createPost() {
 
 }
 
+
+
+
+
+
+async function createUser() {
+	const firstname = document.getElementById('first-name').value;
+	const lastname = document.getElementById('last-name').value;
+	const email = document.getElementById('email').value;
+	const password = document.getElementById('password').value;
+	const confirmPass = document.getElementById('confirm-password').value;
+
+	// Optionally check if passwords match
+	if (password !== confirmPass) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Password Mismatch',
+			text: 'Password and Confirm Password do not match!',
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		});
+		return;
+	}
+
+	const res = await fetch(`${baseUrl}/register`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({
+			firstname,
+			lastname,
+			email,
+			password,
+			confirmPass
+		})
+	});
+
+	const data = await res.json();
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'User Created Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchUsers(); // tumhari fetch wali function agar hai to
+			$('#exampleModal4').modal('hide');
+			document.getElementById('first-name').value = "";
+			document.getElementById('last-name').value = "";
+			document.getElementById('email').value = "";
+			document.getElementById('password').value = "";
+			document.getElementById('confirm-password').value = "";
+		});
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to create user`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+
+async function createTag() {
+	const tagName = document.getElementById('tag-name').value;
+	const description = document.getElementById('description').value;
+
+	const res = await fetch(`${baseUrl}/addTag`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ tagName, description })
+	});
+
+	const data = await res.json();
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Tag Created Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchTags();
+			$('#exampleModal2').modal('hide');
+			document.getElementById('tag-name').value = "";
+			document.getElementById('description').value = "";
+		});
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: 'Failed to Create Tag',
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+async function createPage() {
+	const pageName = document.getElementById('page-name').value;
+	const description = document.getElementById('page-description').value;
+
+	const res = await fetch(`${baseUrl}/addPages`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ pageName, description })
+	});
+
+	const data = await res.json();
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Page Created Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPages();
+			$('#exampleModal3').modal('hide');
+			document.getElementById('page-name').value = "";
+			document.getElementById('page-description').value = "";
+		});
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: 'Failed to Create Page',
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+
 function setupAutoLogout() {
 	const expiryTime = localStorage.getItem('tokenExpiry');
 	

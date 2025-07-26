@@ -8387,3 +8387,66 @@ a[data-toggle="collapse"] {
     top: 0;
     transform: translateX(-10px); /* optional spacing */
   }
+
+  
+
+
+
+
+
+
+
+
+
+ /* Create Post Button - All States */
+.btn-primary[data-bs-target="#exampleModal"] {
+  background-color: rgb(33, 33, 33) !important;
+  /* border-color: #28a745 !important; */
+  color: white !important;
+}
+
+.btn-primary[data-bs-target="#exampleModal"]:hover,
+.btn-primary[data-bs-target="#exampleModal"]:focus,
+.btn-primary[data-bs-target="#exampleModal"]:active {
+  background-color: rgb(70, 83, 103) !important;
+  /* border-color: #1e7e34 !important; */
+  color: white !important;
+  box-shadow: none !important;
+}
+
+/* Scroll wrapper */
+.table-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Make sure table layout is fixed */
+.fixed-header {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Sticky header style */
+.fixed-header thead th {
+  position: sticky;
+  top: 0;
+  background-color: black !important;
+  color: white !important;
+  z-index: 2;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+  white-space: nowrap;
+}
+
+/* Body cells match layout */
+.fixed-header tbody td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
