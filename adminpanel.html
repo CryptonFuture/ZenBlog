@@ -206,8 +206,10 @@
         </div>
 
         <!-- <caption>List of users</caption> -->
-        <table class="table caption-top">
-          <thead>
+         <div class="table-wrapper">
+
+           <table class="table caption-top table-bordered table-striped fixed-header">
+             <thead>
             <tr>
               <th scope="col">So.#</th>
               <th scope="col">Title</th>
@@ -219,10 +221,11 @@
             </tr>
           </thead>
           <tbody id="postlist">
-
-
+            
+            
           </tbody>
         </table>
+      </div>
 
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -325,17 +328,19 @@
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <!-- <button onclick="createUser()" type="" class="btn btn-primary">Submit</button> -->
+                <button onclick="createUser()" type="submit" class="btn btn-primary">Submit</button>
               </div>
 
             </div>
           </div>
         </div>
 
-        <table class="table caption-top">
-          <thead>
-            <tr>
-              <th scope="col">So.#</th>
+        <div class="table-wrapper">
+          <table class="table caption-top">
+            <thead>
+              <tr>
+                <th scope="col">So.#</th>
               <th scope="col">First Name</th>
               <th scope="col">Last Name</th>
               <th scope="col">Email</th>
@@ -346,9 +351,10 @@
           </thead>
           <tbody id="userlist">
           </tbody>
-
+          
         </table>
-
+      </div>
+        
         <div class="modal fade" id="edituser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -447,26 +453,29 @@
                 <form>
                   <div class="mb-3">
                     <label for="recipient-name" class="col-form-label">Tag Name:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <input type="text" class="form-control" id="tag-name">
                   </div>
                   <div class="mb-3">
                     <label for="message-text" class="col-form-label">Description</label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <textarea class="form-control" id="description"></textarea>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <!-- <button type="button" class="btn btn-primary">Submit</button> -->
+                <button type="button" class="btn btn-primary" onclick="createTag()">Submit</button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- <caption>List of users</caption> -->
-        <table class="table caption-top">
-          <thead>
-            <tr>
+         <div class="table-wrapper">
+
+           <table class="table  caption-top">
+             <thead>
+               <tr>
               <th scope="col">So.#</th>
               <th scope="col">Tag Name</th>
               <th scope="col">Description</th>
@@ -478,8 +487,9 @@
           </thead>
           <tbody id="taglist">
           </tbody>
-
+          
         </table>
+      </div>
 
         <div class="modal fade" id="edittag" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -549,27 +559,29 @@
               <div class="modal-body">
                 <form>
                   <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Page Name:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <label for="page-name" class="col-form-label">Page Name:</label>
+                    <input type="text" class="form-control" id="page-name">
                   </div>
                   <div class="mb-3">
-                    <label for="message-text" class="col-form-label">Description</label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <label for="description" class="col-form-label">Description</label>
+                    <textarea class="form-control" id="page-description"></textarea>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-primary" onclick="createPage()">Submit</button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- <caption>List of users</caption> -->
-        <table class="table caption-top">
-          <thead>
-            <tr>
+         <div class="table-wrapper">
+
+           <table class="table caption-top">
+             <thead>
+               <tr>
               <th scope="col">So.#</th>
               <th scope="col">Page Name</th>
               <th scope="col">Description</th>
@@ -582,8 +594,9 @@
           <tbody id="pagelist">
             
           </tbody>
-
+          
         </table>
+      </div>
 
         <div class="modal fade" id="editpage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
