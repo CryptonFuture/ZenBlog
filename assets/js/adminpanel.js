@@ -102,7 +102,7 @@ async function fetchPost() {
                 </button>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
-                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"> <i
+                  <li><a onclick="editPost('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"> <i
                         class="fas fa-edit me-2 text-info"></i> Edit</a></li>
                   <li><a onclick="deletePost('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a>
                   </li>
@@ -729,6 +729,36 @@ async function logout() {
 			title: 'Logout Failed',
 			text: data.error
 		});
+	}
+}
+
+async function editPost(id) {
+	const res = await fetch(`${baseUrl}/editPostById/${id}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const post = data.data[0]
+		document.getElementById('edit-post-id').value = post._id
+		document.getElementById('edit-post-title').value = post.title
+		document.getElementById('edit-post-description').value = post.description
+		document.getElementById('edit-post-status').checked = post.status
+
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
 	}
 }
 
