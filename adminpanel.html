@@ -237,17 +237,22 @@
               <div class="modal-body">
                 <form>
                   <!-- Add title and description fields -->
+
+                  <div class="mb-3" style="display: none;">
+                    <input hidden readonly type="text" class="form-control" id="edit-post-id" name="id" value="" />
+                  </div>
+
                   <div class="mb-3">
                     <label for="edit-title" class="col-form-label">Title:</label>
-                    <input type="text" class="form-control" id="edit-title">
+                    <input type="text" class="form-control" id="edit-post-title">
                   </div>
                   <div class="mb-3">
                     <label for="edit-description" class="col-form-label">Description:</label>
-                    <textarea class="form-control" id="edit-description"></textarea>
+                    <textarea class="form-control" id="edit-post-description"></textarea>
                   </div>
 
                   <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="edit-status">
+                    <input class="form-check-input" type="checkbox" id="edit-post-status">
                     <label class="form-check-label" for="edit-status">
                       Status
                     </label>
