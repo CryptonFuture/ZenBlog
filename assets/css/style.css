@@ -8399,15 +8399,15 @@ a[data-toggle="collapse"] {
 
 
  /* Create Post Button - All States */
-.btn-primary[data-bs-target="#exampleModal"] {
+.btn.btn-primary {
   background-color: rgb(33, 33, 33) !important;
   /* border-color: #28a745 !important; */
   color: white !important;
 }
 
-.btn-primary[data-bs-target="#exampleModal"]:hover,
-.btn-primary[data-bs-target="#exampleModal"]:focus,
-.btn-primary[data-bs-target="#exampleModal"]:active {
+.btn.btn-primary:hover,
+.btn.btn-primary:focus,
+.btn.btn-primary:active {
   background-color: rgb(70, 83, 103) !important;
   /* border-color: #1e7e34 !important; */
   color: white !important;
@@ -8422,14 +8422,14 @@ a[data-toggle="collapse"] {
 }
 
 /* Make sure table layout is fixed */
-.fixed-header {
+.table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
 
 /* Sticky header style */
-.fixed-header thead th {
+.table thead th {
   position: sticky;
   top: 0;
   background-color: black !important;
@@ -8442,7 +8442,7 @@ a[data-toggle="collapse"] {
 }
 
 /* Body cells match layout */
-.fixed-header tbody td {
+.table tbody td {
   padding: 10px;
   border: 1px solid #ddd;
   vertical-align: top;
