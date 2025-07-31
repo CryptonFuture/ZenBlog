@@ -8400,7 +8400,8 @@ a[data-toggle="collapse"] {
 
  /* Create Post Button - All States */
 .btn.btn-primary {
-  background-color: rgb(33, 33, 33) !important;
+  border-style: none;
+  background-color: rgb(33, 33, 33) ;
   /* border-color: #28a745 !important; */
   color: white !important;
 }
@@ -8449,4 +8450,9 @@ a[data-toggle="collapse"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.bttn{
+  background: transparent;
+    border-color: transparent;
 }
