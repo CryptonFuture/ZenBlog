@@ -235,7 +235,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form>
+                <form id="editPostForm">
                   <!-- Add title and description fields -->
 
                   <div class="mb-3" style="display: none;">
@@ -263,7 +263,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update Post</button>
+                <button onclick="updatePost()" type="submit" form="editPostForm" class="btn btn-primary">Update Post</button>
               </div>
             </div>
           </div>
