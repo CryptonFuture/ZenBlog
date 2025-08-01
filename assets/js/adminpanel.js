@@ -863,3 +863,51 @@ async function editPage(id) {
 		})
 	}
 }
+
+document.getElementById('editPostForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-post-id').value
+	updatePost(id)
+})
+
+async function updatePost(id) {
+	const title = document.getElementById('edit-post-title').value
+	const description = document.getElementById('edit-post-description').value
+	const status = document.getElementById('edit-post-status').checked
+
+	const res = await fetch(`${baseUrl}/updatePost/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ title, description, status })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Post Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPost();
+			$('#editModal').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
