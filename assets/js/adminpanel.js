@@ -250,7 +250,7 @@ async function fetchUsers() {
 
 async function deletePost(id) {
 	const result = await Swal.fire({
-		title: 'Are you sure you want to delete this tag?',
+		title: 'Are you sure you want to delete this post?',
 		text: 'You won\'t be able to revert this!',
 		icon: 'warning',
 		showCancelButton: true,
@@ -592,7 +592,7 @@ async function deleteTag(id) {
 
 async function deleteUser(id) {
 	const result = await Swal.fire({
-		title: 'Are you sure you want to delete this tag?',
+		title: 'Are you sure you want to delete this user?',
 		text: 'You won\'t be able to revert this!',
 		icon: 'warning',
 		showCancelButton: true,
@@ -640,7 +640,7 @@ async function deleteUser(id) {
 
 async function deletePages(id) {
 	const result = await Swal.fire({
-		title: 'Are you sure you want to delete this tag?',
+		title: 'Are you sure you want to delete this page?',
 		text: 'You won\'t be able to revert this!',
 		icon: 'warning',
 		showCancelButton: true,
@@ -903,6 +903,165 @@ async function updatePost(id) {
 		Swal.fire({
 			icon: 'error',
 			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
+
+
+
+
+
+
+
+
+document.getElementById('editTagForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-tag-id').value
+	updatetag(id)
+})
+
+async function updatetag(id) {
+	const tagName = document.getElementById('edit-tag-tagname').value
+	const description = document.getElementById('edit-tag-description').value
+	const status = document.getElementById('edit-tag-status').checked
+
+	const res = await fetch(`${baseUrl}/updateTag/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ tagName, description, status })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Tag Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchTags();
+			$('#edittag').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete tag: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
+
+
+
+
+document.getElementById('editPageForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-page-id').value
+	updatePage(id)
+})
+
+async function updatePage(id) {
+	const pageName = document.getElementById('edit-page-pagename').value
+	const description = document.getElementById('edit-page-description').value
+	const status = document.getElementById('edit-page-status').checked
+
+	const res = await fetch(`${baseUrl}/updatePages/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ pageName, description, status })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Page Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPages();
+			$('#editpage').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete page: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
+
+
+
+
+document.getElementById('editUserForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-user-id').value
+	updateUser(id)
+})
+
+async function updateUser(id) {
+	const firstname = document.getElementById('edit-user-first-name').value
+	const lastname = document.getElementById('edit-user-last-name').value
+	const email = document.getElementById('edit-user-email').value
+	const status = document.getElementById('edit-user-status').checked
+	const admin = document.getElementById('edit-user-admin').checked
+
+	const res = await fetch(`${baseUrl}/updateUser/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ firstname, lastname, email, status, admin })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update User Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchUsers();
+			$('#edituser').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete user: ${err.error || res.statusText}`,
 			text: data.error,
 			timer: 2000,
 			showConfirmButton: false,
