@@ -101,11 +101,7 @@ async function fetchPost() {
                   &#8942;
                 </button>
                 <ul class="dropdown-menu">
-                  <li>
-				  <a onclick="viewPost('${item._id}')" class="dropdown-item view-btn" href="#" data-bs-toggle="modal" data-bs-target="#viewPostModal">
-					<i class="fas fa-eye me-2 text-warning"></i> View
-				  </a>
-				  </li>
+                  <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
                   <li><a onclick="editPost('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"> <i
                         class="fas fa-edit me-2 text-info"></i> Edit</a></li>
                   <li><a onclick="deletePost('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a>
@@ -914,38 +910,4 @@ async function updatePost(id) {
 		})
 	}
 
-
-}
-
-async function viewPost(id) {
-
-	const res = await fetch(`${baseUrl}/viewPostById/${id}`, {
-		method: 'GET',
-		headers: {
-			'Authorization': `${tokenType} ${access_Token}`
-		}
-	})
-
-	const data = await res.json()
-
-	if (res.ok && data.success && data.data.length > 0) {
-		const view = data.data[0]
-
-		document.getElementById('view-post-id').innerHTML = `<strong>ID: </strong> <span> ${view._id} </span>`
-		document.getElementById('view-post-title').innerHTML = `<strong>Title: </strong> <span> ${view.title} </span>`
-		document.getElementById('view-post-description').innerHTML = `<strong>Description: </strong> <span> ${view.description} </span>`
-		document.getElementById('view-post-status').innerHTML = `<strong>Status: </strong> <span> ${view.status ? 'Published' : 'unPublished'} </span>`
-		document.getElementById('view-post-createdAt').innerHTML = `<strong>CreatedAt: </strong> <span> ${new Date(view.createdAt).toISOString().split('T')[0]} </span>`
-		document.getElementById('view-post-updatedAt').innerHTML = `<strong>UpdatedAt: </strong> <span> ${new Date(view.updatedAt).toISOString().split('T')[0]} </span>`
-	} else {
-		const err = await res.json();
-		Swal.fire({
-			icon: 'error',
-			title: `Failed to delete post: ${err.error || res.statusText}`,
-			text: data.error,
-			timer: 2000,
-			showConfirmButton: false,
-			timerProgressBar: true
-		})
-	}
 }
