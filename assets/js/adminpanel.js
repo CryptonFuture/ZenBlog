@@ -254,7 +254,7 @@ async function fetchUsers() {
 
 async function deletePost(id) {
 	const result = await Swal.fire({
-		title: 'Are you sure you want to delete this tag?',
+		title: 'Are you sure you want to delete this post?',
 		text: 'You won\'t be able to revert this!',
 		icon: 'warning',
 		showCancelButton: true,
@@ -596,7 +596,7 @@ async function deleteTag(id) {
 
 async function deleteUser(id) {
 	const result = await Swal.fire({
-		title: 'Are you sure you want to delete this tag?',
+		title: 'Are you sure you want to delete this user?',
 		text: 'You won\'t be able to revert this!',
 		icon: 'warning',
 		showCancelButton: true,
@@ -644,7 +644,7 @@ async function deleteUser(id) {
 
 async function deletePages(id) {
 	const result = await Swal.fire({
-		title: 'Are you sure you want to delete this tag?',
+		title: 'Are you sure you want to delete this page?',
 		text: 'You won\'t be able to revert this!',
 		icon: 'warning',
 		showCancelButton: true,
@@ -767,9 +767,6 @@ async function editPost(id) {
 }
 
 
-
-
-
 async function editUser(id) {
 	const res = await fetch(`${baseUrl}/editUserById/${id}`, {
 		method: 'GET',
@@ -802,8 +799,6 @@ async function editUser(id) {
 	}
 }
 
-
-
 async function editTag(id) {
 	const res = await fetch(`${baseUrl}/editTagById/${id}`, {
 		method: 'GET',
@@ -833,9 +828,6 @@ async function editTag(id) {
 		})
 	}
 }
-
-
-
 
 
 async function editPage(id) {
@@ -1008,7 +1000,7 @@ async function updatePage(id) {
 		const err = await res.json();
 		Swal.fire({
 			icon: 'error',
-			title: `Failed to delete Page: ${err.error || res.statusText}`,
+			title: `Failed to delete page: ${err.error || res.statusText}`,
 			text: data.error,
 			timer: 2000,
 			showConfirmButton: false,
@@ -1052,7 +1044,7 @@ async function updateUser(id) {
 		const err = await res.json();
 		Swal.fire({
 			icon: 'error',
-			title: `Failed to delete User: ${err.error || res.statusText}`,
+			title: `Failed to delete user: ${err.error || res.statusText}`,
 			text: data.error,
 			timer: 2000,
 			showConfirmButton: false,
