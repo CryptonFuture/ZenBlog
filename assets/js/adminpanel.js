@@ -101,7 +101,11 @@ async function fetchPost() {
                   &#8942;
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+                  <li>
+					<a onclick="viewPost('${item._id}')" class="dropdown-item view-btn" href="#" data-bs-toggle="modal" data-bs-target="#viewPostModal">
+						<i class="fas fa-eye me-2 text-warning"></i> View
+					</a>
+				  </li>
                   <li><a onclick="editPost('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editModal"> <i
                         class="fas fa-edit me-2 text-info"></i> Edit</a></li>
                   <li><a onclick="deletePost('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a>
@@ -779,8 +783,8 @@ async function editUser(id) {
 	if (res.ok && data.success && data.data.length > 0) {
 		const user = data.data[0]
 		document.getElementById('edit-user-id').value = user._id
-		document.getElementById('edit-user-first-name').value = user.firstname
-		document.getElementById('edit-user-last-name').value = user.lastname
+		document.getElementById('edit-user-firstname').value = user.firstname
+		document.getElementById('edit-user-lastname').value = user.lastname
 		document.getElementById('edit-user-email').value = user.email
 		document.getElementById('edit-user-status').checked = user.status
 		document.getElementById('edit-user-admin').checked = user.Admin
@@ -811,11 +815,11 @@ async function editTag(id) {
 	const data = await res.json()
 
 	if (res.ok && data.success && data.data.length > 0) {
-		const post = data.data[0]
-		document.getElementById('edit-tag-id').value = post._id
-		document.getElementById('edit-tag-tagname').value = post.tagName
-		document.getElementById('edit-tag-description').value = post.description
-		document.getElementById('edit-tag-status').checked = post.status
+		const tag = data.data[0]
+		document.getElementById('edit-tag-id').value = tag._id
+		document.getElementById('edit-tag-tagname').value = tag.tagName
+		document.getElementById('edit-tag-description').value = tag.description
+		document.getElementById('edit-tag-status').checked = tag.status
 
 	} else {
 		const err = await res.json();
@@ -870,6 +874,24 @@ document.getElementById('editPostForm').addEventListener('submit', function (e) 
 	updatePost(id)
 })
 
+document.getElementById('editTagForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-tag-id').value
+	updateTag(id)
+})
+
+document.getElementById('editPageForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-page-id').value
+	updatePage(id)
+})
+
+document.getElementById('editUserForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-user-id').value
+	updateUser(id)
+})
+
 async function updatePost(id) {
 	const title = document.getElementById('edit-post-title').value
 	const description = document.getElementById('edit-post-description').value
@@ -910,4 +932,165 @@ async function updatePost(id) {
 		})
 	}
 
+}
+
+async function updateTag(id) {
+	const tagName = document.getElementById('edit-tag-tagname').value
+	const description = document.getElementById('edit-tag-description').value
+	const status = document.getElementById('edit-tag-status').checked
+
+	const res = await fetch(`${baseUrl}/updateTag/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ tagName, description, status })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Tag Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchTags();
+			$('#edittag').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete tag: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
+
+async function updatePage(id) {
+	const pageName = document.getElementById('edit-page-pagename').value
+	const description = document.getElementById('edit-page-description').value
+	const status = document.getElementById('edit-page-status').checked
+
+	const res = await fetch(`${baseUrl}/updatePages/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ pageName, description, status })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Page Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchPages();
+			$('#editpage').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete Page: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
+
+async function updateUser(id) {
+	const firstname = document.getElementById('edit-user-firstname').value
+	const lastname = document.getElementById('edit-user-lastname').value
+	const email = document.getElementById('edit-user-email').value
+	const status = document.getElementById('edit-user-status').checked
+	const admin = document.getElementById('edit-user-admin').checked
+
+	const res = await fetch(`${baseUrl}/updateUser/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ firstname, lastname, email, status, admin })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update User Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchUsers();
+			$('#edituser').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete User: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
+
+async function viewPost(id) {
+
+	const res = await fetch(`${baseUrl}/viewPostById/${id}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const view = data.data[0]
+
+		document.getElementById('view-post-id').innerHTML = `<strong>ID: </strong> <span> ${view._id} </span>`
+		document.getElementById('view-post-title').innerHTML = `<strong>Title: </strong> <span> ${view.title} </span>`
+		document.getElementById('view-post-description').innerHTML = `<strong>Description: </strong> <span> ${view.description} </span>`
+		document.getElementById('view-post-status').innerHTML = `<strong>Status: </strong> <span> ${view.status ? 'Published' : 'unPublished'} </span>`
+		document.getElementById('view-post-createdAt').innerHTML = `<strong>CreatedAt: </strong> <span> ${new Date(view.createdAt).toISOString().split('T')[0]} </span>`
+		document.getElementById('view-post-updatedAt').innerHTML = `<strong>UpdatedAt: </strong> <span> ${new Date(view.updatedAt).toISOString().split('T')[0]} </span>`
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
 }

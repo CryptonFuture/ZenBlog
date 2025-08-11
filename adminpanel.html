@@ -227,6 +227,38 @@
         </table>
       </div>
 
+        <div class="modal fade" id="viewPostModal" tabindex="-1" aria-labelledby="viewPostModalLabel"
+                      aria-hidden="true">
+
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="viewPostModalLabel">View Post</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+
+                          <!-- Modal Body -->
+                          <div class="modal-body" id="viewPost">
+                            
+                             <ul class="list-group list-group-flush">
+                                      <li id="view-post-id" class="list-group-item"></li>
+                                      <li id="view-post-title" class="list-group-item"></li>
+                                      <li id="view-post-description" class="list-group-item"></li>
+                                      <li id="view-post-status" class="list-group-item"></li>
+                                      <li id="view-post-createdAt" class="list-group-item"></li>
+                                      <li id="view-post-updatedAt" class="list-group-item"></li>
+                              </ul>
+                          </div>
+
+                          <!-- Modal Footer -->
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -370,7 +402,7 @@
               </div>
 
               <div class="modal-body">
-                <form>
+                <form id="editUserForm">
 
                   <div class="mb-3" style="display: none;">
                     <input hidden readonly type="text" class="form-control" id="edit-user-id" name="id" value="" />
@@ -379,11 +411,11 @@
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="first-name" class="col-form-label">First Name:</label>
-                      <input type="text" class="form-control" id="edit-user-first-name">
+                      <input type="text" class="form-control" id="edit-user-firstname">
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="last-name" class="col-form-label">Last Name:</label>
-                      <input type="text" class="form-control" id="edit-user-last-name">
+                      <input type="text" class="form-control" id="edit-user-lastname">
                     </div>
                   </div>
 
@@ -415,7 +447,7 @@
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-primary" form="editUserForm">Save Changes</button>
               </div>
 
             </div>
@@ -500,7 +532,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form>
+                <form id="editTagForm">
 
                   <div class="mb-3" style="display: none;">
                     <input hidden readonly type="text" class="form-control" id="edit-tag-id" name="id" value="" />
@@ -516,7 +548,7 @@
                   </div>
 
                   <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="edit-status">
+                    <input class="form-check-input" type="checkbox" id="edit-tag-status">
                     <label class="form-check-label" for="edit-tag-status">
                       Status
                     </label>
@@ -527,7 +559,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save Changes</button>
+                <button  form="editTagForm" type="submit" class="btn btn-primary">Save Changes</button>
               </div>
             </div>
           </div>
@@ -612,7 +644,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form>
+                <form id="editPageForm">
 
                    <div class="mb-3" style="display: none;">
                     <input hidden readonly type="text" class="form-control" id="edit-page-id" name="id" value="" />
@@ -628,7 +660,7 @@
                   </div>
 
                   <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="edit-status">
+                    <input class="form-check-input" type="checkbox" id="edit-page-status">
                     <label class="form-check-label" for="edit-page-status">
                       Status
                     </label>
@@ -639,7 +671,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" form="editPageForm">Submit</button>
               </div>
             </div>
           </div>
