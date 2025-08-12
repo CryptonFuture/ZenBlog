@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	fetchTags()
 	fetchUsers()
 	fetchPages()
+	countPost()
 })
 
 const prefix = 'api/v1'
@@ -1181,4 +1182,21 @@ async function viewUser(id) {
 			timerProgressBar: true
 		})
 	}
+}
+
+async function countPost() {
+	
+	const res = await fetch(`${baseUrl}/countPost`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('postCount').textContent = `No Of Count: ${count}`
+
 }
