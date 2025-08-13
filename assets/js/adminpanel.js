@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	fetchUsers()
 	fetchPages()
 	countPost()
+	countUser()
+	countPages()
+	countTag()
 })
 
 const prefix = 'api/v1'
@@ -1198,5 +1201,64 @@ async function countPost() {
 	const count = data.count
 
 	document.getElementById('postCount').textContent = `No Of Count: ${count}`
+
+}
+
+
+
+
+
+async function countUser() {
+	
+	const res = await fetch(`${baseUrl}/countUser`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('userCount').textContent = `No Of Count: ${count}`
+
+}
+
+
+async function countPages() {
+	
+	const res = await fetch(`${baseUrl}/countPages`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('pageCount').textContent = `No Of Count: ${count}`
+
+}
+
+
+
+
+async function countTag() {
+	
+	const res = await fetch(`${baseUrl}/countTag`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const count = data.count
+
+	document.getElementById('tagCount').textContent = `No Of Count: ${count}`
 
 }
