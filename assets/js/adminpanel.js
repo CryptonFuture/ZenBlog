@@ -71,7 +71,14 @@ async function fetchDashboard() {
 }
 
 async function fetchPost() {
-	const res = await fetch(`${baseUrl}/getPost`, {
+
+	const searchInput = document.getElementById('searchInput')?.value || "";
+
+	const queryParams = new URLSearchParams({
+		search: searchInput,
+	});
+
+	const res = await fetch(`${baseUrl}/getPost?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Content-Type': 'application/json',
@@ -89,6 +96,11 @@ async function fetchPost() {
 	const list = document.getElementById('postlist')
 
 	list.innerHTML = '';
+
+	if (!data.success || post.length === 0) {
+		list.innerHTML = '<tr><td colspan="7" class="text-center">No record found</td></tr>';
+		return;
+	}
 
 	post.forEach((item, index) => {
 
@@ -121,6 +133,10 @@ async function fetchPost() {
 		`;
 	})
 
+}
+
+function applyFilters() {
+	fetchPost();
 }
 
 
@@ -1187,9 +1203,21 @@ async function viewUser(id) {
 	}
 }
 
-async function countPost() {
+function getSearchParamsAndCount() {
+  const search = document.getElementById('searchInput').value.trim();
+
+  countPost(search);
+}
+
+document.getElementById('searchInput').addEventListener('input', getSearchParamsAndCount);
+
+async function countPost(search = "") {
+
+	const queryParams = new URLSearchParams();
+
+	if (search) queryParams.append("search", search);
 	
-	const res = await fetch(`${baseUrl}/countPost`, {
+	const res = await fetch(`${baseUrl}/countPost?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
