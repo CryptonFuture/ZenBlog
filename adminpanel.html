@@ -163,8 +163,15 @@
         <h2>Post</h2>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
-          <div class="input-group w-25">
+          <div class="input-group w-50">
             <input id="searchInput" oninput="applyFilters()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
+            <select style="margin-left: 10px;" class="form-select" id="sortPostSelect" onchange="fetchPost()">
+                      <option value="">Sort By</option>
+                      <option value="title:asc">Title (A-Z)</option>
+                      <option value="title:desc">Title (Z-A)</option>
+                      <option value="createdAt:asc">Oldest First</option>
+                      <option value="createdAt:desc" selected>Newest First</option>
+                    </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
@@ -315,8 +322,15 @@
         <h2>User</h2>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
-          <div class="input-group w-25">
+          <div class="input-group w-50">
             <input id="searchUser" oninput="applyFiltersUser()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
+             <select style="margin-left: 10px;" class="form-select" id="sortUsersSelect" onchange="fetchUsers()">
+                      <option value="">Sort By</option>
+                      <option value="title:asc">Title (A-Z)</option>
+                      <option value="title:desc">Title (Z-A)</option>
+                      <option value="createdAt:asc">Oldest First</option>
+                      <option value="createdAt:desc" selected>Newest First</option>
+                    </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
@@ -501,9 +515,16 @@
         <h2>Tag</h2>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
-          <div class="input-group w-25">
+          <div class="input-group w-50">
 
             <input id="searchTag" oninput="applyFiltersTag()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
+              <select style="margin-left: 10px;" class="form-select" id="sortTagSelect" onchange="fetchTags()">
+                      <option value="">Sort By</option>
+                      <option value="title:asc">Title (A-Z)</option>
+                      <option value="title:desc">Title (Z-A)</option>
+                      <option value="createdAt:asc">Oldest First</option>
+                      <option value="createdAt:desc" selected>Newest First</option>
+                    </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
@@ -650,8 +671,15 @@
         <h2>Pages</h2>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
-          <div class="input-group w-25">
+          <div class="input-group w-50">
             <input id="searchPages" oninput="applyFiltersPages()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
+            <select style="margin-left: 10px;" class="form-select" id="sortPagesSelect" onchange="fetchPages()">
+                      <option value="">Sort By</option>
+                      <option value="title:asc">Title (A-Z)</option>
+                      <option value="title:desc">Title (Z-A)</option>
+                      <option value="createdAt:asc">Oldest First</option>
+                      <option value="createdAt:desc" selected>Newest First</option>
+                    </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
