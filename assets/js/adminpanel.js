@@ -165,7 +165,7 @@ async function fetchTags() {
 	const list = document.getElementById('taglist');
 	list.innerHTML = '';
 
-	if (!data.success || post.length === 0) {
+	if (!data.success || tags.length === 0) {
 		list.innerHTML = `<tr><td colspan="7" class="text-center">${data.error}</td></tr>`;
 		return;
 	}
@@ -223,7 +223,7 @@ async function fetchPages() {
 	const list = document.getElementById('pagelist');
 	list.innerHTML = '';
 
-	if (!data.success || post.length === 0) {
+	if (!data.success || pages.length === 0) {
 		list.innerHTML = `<tr><td colspan="7" class="text-center">${data.error}</td></tr>`;
 		return;
 	}
@@ -285,7 +285,7 @@ async function fetchUsers() {
 	list.innerHTML = '';
 
 
-	if (!data.success || post.length === 0) {
+	if (!data.success || users.length === 0) {
 		list.innerHTML = `<tr><td colspan="7" class="text-center">${data.error}</td></tr>`;
 		return;
 	}
