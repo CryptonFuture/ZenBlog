@@ -164,30 +164,31 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
           <div class="input-group w-50">
-            <input id="searchInput" oninput="applyFilters()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
+            <input id="searchInput" oninput="applyFilters()" type="text" class="form-control"
+              placeholder="Search here..." aria-label="Search here">
             <select style="margin-left: 10px;" class="form-select" id="sortPostSelect" onchange="fetchPost()">
-                      <option value="">Sort By</option>
-                      <option value="title:asc">Title (A-Z)</option>
-                      <option value="title:desc">Title (Z-A)</option>
-                      <option value="createdAt:asc">Oldest First</option>
-                      <option value="createdAt:desc" selected>Newest First</option>
-                    </select>
+              <option value="">Sort By</option>
+              <option value="title:asc">Title (A-Z)</option>
+              <option value="title:desc">Title (Z-A)</option>
+              <option value="createdAt:asc">Oldest First</option>
+              <option value="createdAt:desc" selected>Newest First</option>
+            </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
           </div>
-           
+
           <!-- Modal Button -->
-           <div>
-             <span id="postCount"></span>
-             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-            data-bs-whatever="@mdo">
-            Create Post
-            
-          </button>
-           
-           </div>
-         
+          <div>
+            <span id="postCount"></span>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              data-bs-whatever="@mdo">
+              Create Post
+
+            </button>
+
+          </div>
+
         </div>
 
         <!-- Modal Code -->
@@ -219,58 +220,58 @@
         </div>
 
         <!-- <caption>List of users</caption> -->
-         <div class="table-wrapper">
+        <div class="table-wrapper">
 
-           <table class="table caption-top table-bordered table-striped fixed-header">
-             <thead>
-            <tr>
-              <th scope="col">So.#</th>
-              <th scope="col">Title</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
-              <th scope="col">Created_at</th>
-              <th scope="col">Update_at</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody id="postlist">
-            
-            
-          </tbody>
-        </table>
-      </div>
+          <table class="table caption-top table-bordered table-striped fixed-header">
+            <thead>
+              <tr>
+                <th scope="col">So.#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created_at</th>
+                <th scope="col">Update_at</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="postlist">
+
+
+            </tbody>
+          </table>
+        </div>
 
         <div class="modal fade" id="viewPostModal" tabindex="-1" aria-labelledby="viewPostModalLabel"
-                      aria-hidden="true">
+          aria-hidden="true">
 
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="viewPostModalLabel">View Post</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="viewPostModalLabel">View Post</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
 
-                          <!-- Modal Body -->
-                          <div class="modal-body" id="viewPost">
-                            
-                             <ul class="list-group list-group-flush">
-                                      <li id="view-post-id" class="list-group-item"></li>
-                                      <li id="view-post-title" class="list-group-item"></li>
-                                      <li id="view-post-description" class="list-group-item"></li>
-                                      <li id="view-post-status" class="list-group-item"></li>
-                                      <li id="view-post-createdAt" class="list-group-item"></li>
-                                      <li id="view-post-updatedAt" class="list-group-item"></li>
-                              </ul>
-                          </div>
+              <!-- Modal Body -->
+              <div class="modal-body" id="viewPost">
 
-                          <!-- Modal Footer -->
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <ul class="list-group list-group-flush">
+                  <li id="view-post-id" class="list-group-item"></li>
+                  <li id="view-post-title" class="list-group-item"></li>
+                  <li id="view-post-description" class="list-group-item"></li>
+                  <li id="view-post-status" class="list-group-item"></li>
+                  <li id="view-post-createdAt" class="list-group-item"></li>
+                  <li id="view-post-updatedAt" class="list-group-item"></li>
+                </ul>
+              </div>
+
+              <!-- Modal Footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -308,13 +309,16 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button onclick="updatePost()" type="submit" form="editPostForm" class="btn btn-primary">Update Post</button>
+                <button onclick="updatePost()" type="submit" form="editPostForm" class="btn btn-primary">Update
+                  Post</button>
               </div>
             </div>
           </div>
         </div>
 
-
+        <nav>
+          <ul id="pagination" class="pagination justify-content-center mt-3"></ul>
+        </nav>
         <!-- <p>Post ka content yahan hai.</p> -->
       </div>
 
@@ -323,25 +327,26 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
           <div class="input-group w-50">
-            <input id="searchUser" oninput="applyFiltersUser()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
-             <select style="margin-left: 10px;" class="form-select" id="sortUsersSelect" onchange="fetchUsers()">
-                      <option value="">Sort By</option>
-                      <option value="title:asc">Title (A-Z)</option>
-                      <option value="title:desc">Title (Z-A)</option>
-                      <option value="createdAt:asc">Oldest First</option>
-                      <option value="createdAt:desc" selected>Newest First</option>
-                    </select>
+            <input id="searchUser" oninput="applyFiltersUser()" type="text" class="form-control"
+              placeholder="Search here..." aria-label="Search here">
+            <select style="margin-left: 10px;" class="form-select" id="sortUsersSelect" onchange="fetchUsers()">
+              <option value="">Sort By</option>
+              <option value="title:asc">Title (A-Z)</option>
+              <option value="title:desc">Title (Z-A)</option>
+              <option value="createdAt:asc">Oldest First</option>
+              <option value="createdAt:desc" selected>Newest First</option>
+            </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
           </div>
 
           <!-- Modal Button -->
-           <div>
-             <span id="userCount"></span>
-             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal4"
-             data-bs-whatever="@mdo">
-             Create User
+          <div>
+            <span id="userCount"></span>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal4"
+              data-bs-whatever="@mdo">
+              Create User
             </button>
           </div>
         </div>
@@ -401,52 +406,52 @@
             <thead>
               <tr>
                 <th scope="col">So.#</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Email</th>
-              <!-- <th scope="col">Created_at</th> -->
-              <!-- <th scope="col">Update_at</th> -->
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody id="userlist">
-          </tbody>
-          
-        </table>
-      </div>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <!-- <th scope="col">Created_at</th> -->
+                <!-- <th scope="col">Update_at</th> -->
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="userlist">
+            </tbody>
 
-<div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel"
-                      aria-hidden="true">
+          </table>
+        </div>
 
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="viewUserModalLabel">View User</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
+        <div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel"
+          aria-hidden="true">
 
-                          <!-- Modal Body -->
-                          <div class="modal-body" id="viewUser">
-                            
-                             <ul class="list-group list-group-flush">
-                                      <li id="view-user-id" class="list-group-item"></li>
-                                      <li id="view-user-firstname" class="list-group-item"></li>
-                                      <li id="view-user-lastname" class="list-group-item"></li>
-                                      <li id="view-user-email" class="list-group-item"></li>
-                                      <!-- <li id="view-page-createdAt" class="list-group-item"></li>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="viewUserModalLabel">View User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <!-- Modal Body -->
+              <div class="modal-body" id="viewUser">
+
+                <ul class="list-group list-group-flush">
+                  <li id="view-user-id" class="list-group-item"></li>
+                  <li id="view-user-firstname" class="list-group-item"></li>
+                  <li id="view-user-lastname" class="list-group-item"></li>
+                  <li id="view-user-email" class="list-group-item"></li>
+                  <!-- <li id="view-page-createdAt" class="list-group-item"></li>
                                       <li id="view-page-updatedAt" class="list-group-item"></li> -->
-                              </ul>
-                          </div>
+                </ul>
+              </div>
 
-                          <!-- Modal Footer -->
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-        
+              <!-- Modal Footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="modal fade" id="edituser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -509,6 +514,10 @@
           </div>
         </div>
 
+        <nav>
+          <ul id="paginationUser" class="pagination justify-content-center mt-3"></ul>
+        </nav>
+
       </div>
 
       <div id="tag" class="content-section" style="display:none;">
@@ -517,25 +526,26 @@
           <!-- Search Field -->
           <div class="input-group w-50">
 
-            <input id="searchTag" oninput="applyFiltersTag()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
-              <select style="margin-left: 10px;" class="form-select" id="sortTagSelect" onchange="fetchTags()">
-                      <option value="">Sort By</option>
-                      <option value="title:asc">Title (A-Z)</option>
-                      <option value="title:desc">Title (Z-A)</option>
-                      <option value="createdAt:asc">Oldest First</option>
-                      <option value="createdAt:desc" selected>Newest First</option>
-                    </select>
+            <input id="searchTag" oninput="applyFiltersTag()" type="text" class="form-control"
+              placeholder="Search here..." aria-label="Search here">
+            <select style="margin-left: 10px;" class="form-select" id="sortTagSelect" onchange="fetchTags()">
+              <option value="">Sort By</option>
+              <option value="title:asc">Title (A-Z)</option>
+              <option value="title:desc">Title (Z-A)</option>
+              <option value="createdAt:asc">Oldest First</option>
+              <option value="createdAt:desc" selected>Newest First</option>
+            </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
           </div>
 
           <!-- Modal Button -->
-           <div>
-             <span id="tagCount"></span>
-             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2"
-             data-bs-whatever="@mdo">
-             Create Tag
+          <div>
+            <span id="tagCount"></span>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2"
+              data-bs-whatever="@mdo">
+              Create Tag
             </button>
           </div>
         </div>
@@ -570,57 +580,56 @@
         </div>
 
         <!-- <caption>List of users</caption> -->
-         <div class="table-wrapper">
+        <div class="table-wrapper">
 
-           <table class="table  caption-top">
-             <thead>
-               <tr>
-              <th scope="col">So.#</th>
-              <th scope="col">Tag Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
-              <th scope="col">Created_at</th>
-              <th scope="col">Update_at</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody id="taglist">
-          </tbody>
-          
-        </table>
-      </div>
+          <table class="table  caption-top">
+            <thead>
+              <tr>
+                <th scope="col">So.#</th>
+                <th scope="col">Tag Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created_at</th>
+                <th scope="col">Update_at</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="taglist">
+            </tbody>
 
-<div class="modal fade" id="viewTagModal" tabindex="-1" aria-labelledby="viewTagModalLabel"
-                      aria-hidden="true">
+          </table>
+        </div>
 
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="viewTagModalLabel">View Tag</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
+        <div class="modal fade" id="viewTagModal" tabindex="-1" aria-labelledby="viewTagModalLabel" aria-hidden="true">
 
-                          <!-- Modal Body -->
-                          <div class="modal-body" id="viewTag">
-                            
-                             <ul class="list-group list-group-flush">
-                                      <li id="view-tag-id" class="list-group-item"></li>
-                                      <li id="view-tag-tagname" class="list-group-item"></li>
-                                      <li id="view-tag-description" class="list-group-item"></li>
-                                      <li id="view-tag-status" class="list-group-item"></li>
-                                      <li id="view-tag-createdAt" class="list-group-item"></li>
-                                      <li id="view-tag-updatedAt" class="list-group-item"></li>
-                              </ul>
-                          </div>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="viewTagModalLabel">View Tag</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
 
-                          <!-- Modal Footer -->
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+              <!-- Modal Body -->
+              <div class="modal-body" id="viewTag">
+
+                <ul class="list-group list-group-flush">
+                  <li id="view-tag-id" class="list-group-item"></li>
+                  <li id="view-tag-tagname" class="list-group-item"></li>
+                  <li id="view-tag-description" class="list-group-item"></li>
+                  <li id="view-tag-status" class="list-group-item"></li>
+                  <li id="view-tag-createdAt" class="list-group-item"></li>
+                  <li id="view-tag-updatedAt" class="list-group-item"></li>
+                </ul>
+              </div>
+
+              <!-- Modal Footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
         <div class="modal fade" id="edittag" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -658,12 +667,15 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="editTagForm"  class="btn btn-primary">Save Changes</button>
+                <button type="submit" form="editTagForm" class="btn btn-primary">Save Changes</button>
               </div>
             </div>
           </div>
         </div>
 
+         <nav>
+          <ul id="paginationTag" class="pagination justify-content-center mt-3"></ul>
+        </nav>
 
       </div>
 
@@ -672,27 +684,28 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
           <div class="input-group w-50">
-            <input id="searchPages" oninput="applyFiltersPages()" type="text" class="form-control" placeholder="Search here..." aria-label="Search here">
+            <input id="searchPages" oninput="applyFiltersPages()" type="text" class="form-control"
+              placeholder="Search here..." aria-label="Search here">
             <select style="margin-left: 10px;" class="form-select" id="sortPagesSelect" onchange="fetchPages()">
-                      <option value="">Sort By</option>
-                      <option value="title:asc">Title (A-Z)</option>
-                      <option value="title:desc">Title (Z-A)</option>
-                      <option value="createdAt:asc">Oldest First</option>
-                      <option value="createdAt:desc" selected>Newest First</option>
-                    </select>
+              <option value="">Sort By</option>
+              <option value="title:asc">Title (A-Z)</option>
+              <option value="title:desc">Title (Z-A)</option>
+              <option value="createdAt:asc">Oldest First</option>
+              <option value="createdAt:desc" selected>Newest First</option>
+            </select>
             <!-- <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button> -->
           </div>
 
           <!-- Modal Button -->
-           <div>
-             <span id="pageCount"></span>
-             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3"
-             data-bs-whatever="@mdo">
-            Create Page
-          </button>
-        </div>
+          <div>
+            <span id="pageCount"></span>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3"
+              data-bs-whatever="@mdo">
+              Create Page
+            </button>
+          </div>
         </div>
 
         <!-- Modal Code -->
@@ -724,58 +737,58 @@
         </div>
 
         <!-- <caption>List of users</caption> -->
-         <div class="table-wrapper">
+        <div class="table-wrapper">
 
-           <table class="table caption-top">
-             <thead>
-               <tr>
-              <th scope="col">So.#</th>
-              <th scope="col">Page Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Status</th>
-              <th scope="col">Created_at</th>
-              <th scope="col">Update_at</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody id="pagelist">
-            
-          </tbody>
-          
-        </table>
-      </div>
+          <table class="table caption-top">
+            <thead>
+              <tr>
+                <th scope="col">So.#</th>
+                <th scope="col">Page Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created_at</th>
+                <th scope="col">Update_at</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="pagelist">
 
-<div class="modal fade" id="viewPageModal" tabindex="-1" aria-labelledby="viewPageModalLabel"
-                      aria-hidden="true">
+            </tbody>
 
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <!-- Modal Header -->
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="viewPageModalLabel">View Page</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
+          </table>
+        </div>
 
-                          <!-- Modal Body -->
-                          <div class="modal-body" id="viewPage">
-                            
-                             <ul class="list-group list-group-flush">
-                                      <li id="view-page-id" class="list-group-item"></li>
-                                      <li id="view-page-pagename" class="list-group-item"></li>
-                                      <li id="view-page-description" class="list-group-item"></li>
-                                      <li id="view-page-status" class="list-group-item"></li>
-                                      <li id="view-page-createdAt" class="list-group-item"></li>
-                                      <li id="view-page-updatedAt" class="list-group-item"></li>
-                              </ul>
-                          </div>
+        <div class="modal fade" id="viewPageModal" tabindex="-1" aria-labelledby="viewPageModalLabel"
+          aria-hidden="true">
 
-                          <!-- Modal Footer -->
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="viewPageModalLabel">View Page</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <!-- Modal Body -->
+              <div class="modal-body" id="viewPage">
+
+                <ul class="list-group list-group-flush">
+                  <li id="view-page-id" class="list-group-item"></li>
+                  <li id="view-page-pagename" class="list-group-item"></li>
+                  <li id="view-page-description" class="list-group-item"></li>
+                  <li id="view-page-status" class="list-group-item"></li>
+                  <li id="view-page-createdAt" class="list-group-item"></li>
+                  <li id="view-page-updatedAt" class="list-group-item"></li>
+                </ul>
+              </div>
+
+              <!-- Modal Footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
         <div class="modal fade" id="editpage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -788,7 +801,7 @@
               <div class="modal-body">
                 <form id="editPageForm">
 
-                   <div class="mb-3" style="display: none;">
+                  <div class="mb-3" style="display: none;">
                     <input hidden readonly type="text" class="form-control" id="edit-page-id" name="id" value="" />
                   </div>
 
@@ -819,6 +832,9 @@
           </div>
         </div>
 
+        <nav>
+          <ul id="paginationPages" class="pagination justify-content-center mt-3"></ul>
+        </nav>
 
       </div>
 
