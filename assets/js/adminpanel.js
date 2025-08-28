@@ -55,6 +55,35 @@ let totalPagePages = 1;
 let currentUserPage = 1;
 let totalUserPages = 1;
 
+let filters = {
+	status: "",
+	date: "",
+};
+
+
+function resetFilters() {
+	document.getElementById('statusFilter').value = "";
+	document.getElementById('date').value = "";
+
+	filters.status = "";
+	filters.date = "";
+
+	currentPage = 1;
+	fetchPost();
+	countPost()	
+}
+
+function clearFilters() {
+	document.getElementById('statusFilter').value = "";
+	document.getElementById('date').value = "";
+
+	filters.status = "";
+	filters.date = "";
+
+	currentPage = 1;
+
+}
+
 
 async function fetchDashboard() {
 	const res = await fetch(`${baseUrl}/countAll`, {
@@ -96,7 +125,9 @@ async function fetchPost(page = 1) {
 		search: searchInput,
 		sort: sortValue,
 		limit,
-		page: currentPage
+		page: currentPage,
+		status: filters.status,
+		date: filters.date
 	});
 
 	const res = await fetch(`${baseUrl}/getPost?${queryParams.toString()}`, {
@@ -206,6 +237,9 @@ document.getElementById('sortPostSelect')?.addEventListener('change', () => {
 });
 
 function applyFilters() {
+	filters.status = document.getElementById('statusFilter').value;
+	filters.date = document.getElementById('date').value;
+
 	currentPage = 1;
 
 	fetchPost();
@@ -1494,18 +1528,27 @@ async function viewUser(id) {
 }
 
 function getSearchParamsAndCount() {
+	
 	const search = document.getElementById('searchInput').value.trim();
-
-	countPost(search);
+ 	const status = document.getElementById('statusFilter')?.value || "";
+  	const date = document.getElementById('date')?.value || "";
+	
+	countPost(search, status, date);
 }
 
 document.getElementById('searchInput').addEventListener('input', getSearchParamsAndCount);
 
-async function countPost(search = "") {
+document.getElementById('statusFilter').addEventListener('change', getSearchParamsAndCount);
+
+document.getElementById('date').addEventListener('change', getSearchParamsAndCount);
+
+async function countPost(search = "", status = "", date = "") {
 
 	const queryParams = new URLSearchParams();
 
 	if (search) queryParams.append("search", search);
+	if (status) queryParams.append("status", status);
+	if (date) queryParams.append("date", date);
 
 	const res = await fetch(`${baseUrl}/countPost?${queryParams.toString()}`, {
 		method: 'GET',

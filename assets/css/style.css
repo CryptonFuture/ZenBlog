@@ -40,6 +40,15 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+
+  .btn-outline-orange {
+      border: 2px solid #002752 !important;
+    }
+
+    .input-w {
+      margin: 5px !important;
+    }
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -1331,6 +1340,8 @@ pre {
     margin-left: 83.33333%; }
   .offset-xl-11 {
     margin-left: 91.66667%; } }
+
+    
 
 .table {
   width: 100%;

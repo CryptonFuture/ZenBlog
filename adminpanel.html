@@ -163,7 +163,7 @@
         <h2>Post</h2>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <!-- Search Field -->
-          <div class="input-group w-50">
+          <div class="input-group" style="width: 400px;">
             <input id="searchInput" oninput="applyFilters()" type="text" class="form-control"
               placeholder="Search here..." aria-label="Search here">
             <select style="margin-left: 10px;" class="form-select" id="sortPostSelect" onchange="fetchPost()">
@@ -179,8 +179,13 @@
           </div>
 
           <!-- Modal Button -->
-          <div>
+          <div class="d-flex  align-items-center">
             <span id="postCount"></span>
+              <button type="button" onclick="resetFilters()" class="btn input-w btn-outline-orange">Reset filters</button>
+
+                    <button class="btn input-w btn-dark" data-bs-toggle="modal" data-bs-target="#filterModal">
+                      Advanced Filter
+                    </button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
               data-bs-whatever="@mdo">
               Create Post
@@ -188,6 +193,40 @@
             </button>
 
           </div>
+
+           <!-- Advanced Filter Modal -->
+                  <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="filterModalLabel">Advanced Filters</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="filterForm">
+                            <div class="mb-3">
+                              <label for="statusFilter" class="form-label">Status</label>
+                              <select id="statusFilter" class="form-select">
+                                <option value="">All</option>
+                                <option value="true">Published</option>
+                                <option value="false">Unpublished</option>
+                              </select>
+                            </div>
+                            <div class="mb-3">
+                              <label for="startDate" class="form-label">Date</label>
+                              <input type="date" id="date" class="form-control" />
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" onclick="clearFilters()" class="btn btn-outline-orange">clear filter</button>
+                          <button type="button" onclick="applyFilters()" class="btn btn-dark" data-bs-dismiss="modal">Apply
+                            Filters</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
         </div>
 
