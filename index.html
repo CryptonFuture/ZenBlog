@@ -39,7 +39,52 @@
 </head>
 
 <body class="index-page">
+  <!-- LOGIN MODEL -->
 
+<div class="modal fade" id="Login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Login Form</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="email" class="col-form-label">Email</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+           <small id="email-error" class="text-danger"></small>
+          <div class="mb-3">
+            <label for="password" class="col-form-label">Password</label>
+            <input type="password" class="form-control" id="password">
+          </div>
+           <small id="password-error" class="text-danger"></small>
+           <div class="mb-3">
+                   <label for="message-text" class="col-form-label"
+                    >Role:</label
+                  >
+                  <select id="role" class="form-select" aria-label="Default select example">
+                   
+                  </select>
+                 </div>
+          <div class="mb-3">
+              <label for="edit-post-status" class="col-form-label">Remember me:</label>
+              <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="rememberMe" name="publish">
+                    <label class="form-check-label" for="publishCheck"></label>
+              </div>
+            </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button onclick="login()" type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
@@ -73,7 +118,8 @@
           </li>
           <li><a href="contact.html">Contact</a></li>
           <li><button 
-            id="openModal" 
+            data-bs-toggle="modal" 
+            data-bs-target="#Login" 
             type="button" 
             class="btn btn-primary" 
            >Login</button></li>

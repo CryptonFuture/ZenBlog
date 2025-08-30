@@ -133,56 +133,7 @@
     }   
   })
 
-  $(document).ready(function () {
-    $('#openModal').on('click', function () {
-      const modalHtml = `
-            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Login Form</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="email" class="col-form-label">Email</label>
-            <input type="email" class="form-control" id="email">
-          </div>
-           <small id="email-error" class="text-danger"></small>
-          <div class="mb-3">
-            <label for="password" class="col-form-label">Password</label>
-            <input type="password" class="form-control" id="password">
-          </div>
-           <small id="password-error" class="text-danger"></small>
-          <div class="mb-3">
-              <label for="edit-post-status" class="col-form-label">Remember me:</label>
-              <div class="form-check mb-3">
-                  <input class="form-check-input" type="checkbox" id="rememberMe" name="publish">
-                    <label class="form-check-label" for="publishCheck"></label>
-              </div>
-            </div>
-          
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button onclick="login()" type="button" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
-      `
-      $('body').append(modalHtml)
-
-      const modal = new bootstrap.Modal(document.getElementById('Modal'))
-      modal.show()
-
-      $('#Modal').on('hidden.bs.modal', function () {
-        $(this).remove()
-      })
-    })
-  })
+  
 
   const accessToken = localStorage.getItem('token')
 
@@ -192,6 +143,10 @@
 
 })();
 
+document.addEventListener('DOMContentLoaded', function () {
+  getRole()
+})
+
 const prefix = 'api/v1'
 const baseUrl = `http://localhost:8000/${prefix}`
 
@@ -199,6 +154,8 @@ async function login() {
   const email = document.getElementById('email').value
   const password = document.getElementById('password').value
   const rememberMe = document.getElementById('rememberMe').checked
+   const role = document.getElementById('role').value
+
 
   document.getElementById('email-error').textContent = ""
   document.getElementById('password-error').textContent = ""
@@ -231,7 +188,8 @@ async function login() {
     },
     body: JSON.stringify({
       email,
-      password
+      password,
+      role
     })
   })
 
@@ -247,6 +205,8 @@ async function login() {
     localStorage.setItem('user', data.user.id);
     localStorage.setItem('email', data.user.email);
     localStorage.setItem('tokenType', data.user.tokenType);
+    localStorage.setItem('role', data.user.role);
+    localStorage.setItem('is_admin', data.user.is_admin);
     // localStorage.setItem('tokenExpiry', data.expiresAt);
 
      if (rememberMe) {
@@ -287,4 +247,33 @@ async function login() {
     });
   }
 
+}
+
+async function getRole() {
+	
+	const res = await fetch(`${baseUrl}/getRoles`, {
+		method: 'GET'
+	})
+
+	const data = await res.json()
+
+	const role = data.data
+
+	const rolelist = document.getElementById('role')
+
+	rolelist.innerHTML = '';
+
+	if (!data.success || !data.data || data.data.length === 0) {
+			 const errorRow = `<option disabled selected>${data.error || "No record found"}</option>`;
+			  rolelist.innerHTML = errorRow
+			return ;
+	}
+
+  rolelist.innerHTML = `<option value="" disabled selected>Select Role</option>`;
+
+	role.forEach((item, index) => {
+		rolelist.innerHTML += `
+				<option value="${item.role}">${item.name}</option>
+			`
+	})
 }
