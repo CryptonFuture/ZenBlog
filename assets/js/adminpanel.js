@@ -1058,6 +1058,8 @@ async function logout() {
 		localStorage.removeItem('rememberedEmail');
 		localStorage.removeItem('rememberedPassword');
 		localStorage.removeItem('tokenExpiry');
+		localStorage.removeItem('role');
+		localStorage.removeItem('is_admin');
 
 		Swal.fire({
 			icon: 'success',
@@ -1654,3 +1656,4 @@ async function countTag(search = "") {
 	document.getElementById('tagCount').textContent = `No Of Count: ${count}`
 
 }
+
