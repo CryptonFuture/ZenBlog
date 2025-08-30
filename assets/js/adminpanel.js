@@ -496,7 +496,7 @@ async function fetchUsers(page = 1) {
 		page: currentUserPage
 	});
 
-	const res = await fetch(`${baseUrl}/getUser?${queryParams.toString()}`, {
+	const res = await fetch(`${baseUrl}/getActiveUser?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Content-Type': 'application/json',
@@ -1058,6 +1058,8 @@ async function logout() {
 		localStorage.removeItem('rememberedEmail');
 		localStorage.removeItem('rememberedPassword');
 		localStorage.removeItem('tokenExpiry');
+		localStorage.removeItem('role');
+		localStorage.removeItem('is_admin');
 
 		Swal.fire({
 			icon: 'success',
