@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	countUser()
 	countPages()
 	countTag()
+	getRole('.addrole')
+	getRole('.editrole')
+
 })
 
 const prefix = 'api/v1'
@@ -728,6 +731,7 @@ async function createUser() {
 	const email = document.getElementById('email').value;
 	const password = document.getElementById('password').value;
 	const confirmPass = document.getElementById('confirm-password').value;
+	const role = document.getElementById('role').value;
 
 	// Optionally check if passwords match
 	if (password !== confirmPass) {
@@ -753,7 +757,8 @@ async function createUser() {
 			lastname,
 			email,
 			password,
-			confirmPass
+			confirmPass,
+			role
 		})
 	});
 
@@ -775,6 +780,7 @@ async function createUser() {
 			document.getElementById('email').value = "";
 			document.getElementById('password').value = "";
 			document.getElementById('confirm-password').value = "";
+			document.getElementById('role').value = "";
 		});
 	} else {
 		Swal.fire({
@@ -1160,6 +1166,7 @@ async function editUser(id) {
 		document.getElementById('edit-user-firstname').value = user.firstname
 		document.getElementById('edit-user-lastname').value = user.lastname
 		document.getElementById('edit-user-email').value = user.email
+		document.querySelector('.editrole').value = user.role
 		document.getElementById('edit-user-status').checked = user.status
 		document.getElementById('edit-user-admin').checked = user.Admin
 
@@ -1639,7 +1646,7 @@ async function countUser(search = "", status = "", date = "") {
 function getSearchParamsAndCountPages() {
 	const search = document.getElementById('searchPages').value.trim();
 	const status = document.getElementById('pageStatusFilter')?.value || "";
-  	const date = document.getElementById('pageDate')?.value || "";
+	const date = document.getElementById('pageDate')?.value || "";
 
 	countPages(search);
 }
@@ -1655,7 +1662,7 @@ async function countPages(search = "", status = "", date = "") {
 	const queryParams = new URLSearchParams();
 
 	if (search) queryParams.append("search", search);
-		if (status) queryParams.append("status", status);
+	if (status) queryParams.append("status", status);
 	if (date) queryParams.append("date", date);
 
 	const res = await fetch(`${baseUrl}/countPages?${queryParams.toString()}`, {
@@ -1709,3 +1716,39 @@ async function countTag(search = "", status = "", date = "") {
 
 }
 
+
+
+
+
+
+async function getRole(dropdownselector) {
+	
+	const res = await fetch(`${baseUrl}/getRole`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+	})
+
+	const data = await res.json()
+
+	const role = data.data
+
+	const rolelist = document.querySelector(dropdownselector) 
+
+	rolelist.innerHTML = '';
+
+	if (!data.success || !data.data || data.data.length === 0) {
+			 const errorRow = `<option disabled selected>${data.error || "No record found"}</option>`;
+			  rolelist.innerHTML = errorRow
+			return ;
+	}
+
+  rolelist.innerHTML = `<option value="" disabled selected>Select Role</option>`;
+
+	role.forEach((item, index) => {
+		rolelist.innerHTML += `
+				<option value="${item.role}">${item.name}</option>
+			`
+	})
+}
