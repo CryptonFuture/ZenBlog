@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	fetchPost()
 	fetchTags()
 	fetchUsers()
+	fetchInactiveUsers()
 	fetchPages()
+	fetchlogs()
 	countPost()
 	countUser()
 	countPages()
@@ -57,6 +59,12 @@ let totalPagePages = 1;
 
 let currentUserPage = 1;
 let totalUserPages = 1;
+
+let currentlogPage = 1;
+let totallogPages = 1;
+
+let currentInactiveUserPage = 1;
+let totalInactiveUserPages = 1;
 
 let filters = {
 	status: "",
@@ -151,7 +159,7 @@ async function fetchPost(page = 1) {
 		date: filters.date
 	});
 
-	const res = await fetch(`${baseUrl}/getPost?${queryParams.toString()}`, {
+	const res = await fetch(`${baseUrl}/getPublishedPost?${queryParams.toString()}`, {
 		method: "GET",
 		headers: {
 			'Content-Type': 'application/json',
@@ -184,8 +192,19 @@ async function fetchPost(page = 1) {
               <td>${item.title}</td>
               <td>${item.description}</td>
               <td>${item.status ? 'Published' : 'UnPublished'}</td>
+              <td>${item.approved ? 'Approved' : 'Unapproved'}</td>
+              <td>${item.postStatus}</td>
+              <td>
+			 	<img 
+					src="${item.image}" 
+					alt="User Image" 
+					width="50" 
+					height="50" 
+					style="object-fit: cover; border-radius: 50%;" 
+					/> 
+			  </td>
 			  <td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
-			<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+			  <td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
               <td>
                 <button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   &#8942;
@@ -557,6 +576,10 @@ async function fetchUsers(page = 1) {
 				<td>${item.firstname}</td>
 				<td>${item.lastname}</td>
 				<td>${item.email}</td>
+				<td>${item.role}</td>
+				<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+				<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+				
 				<td>
 					<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 					  &#8942;
@@ -630,6 +653,143 @@ function applyFiltersUser() {
 
 
 
+
+
+
+
+async function fetchInactiveUsers(page = 1) {
+
+	currentInactiveUserPage = page;
+
+	const sortValue = document.getElementById('sortInactiveUsersSelect')?.value || "";
+
+	const searchInput = document.getElementById('searchInactiveUser')?.value || "";
+
+	const queryParams = new URLSearchParams({
+		search: searchInput,
+		sort: sortValue,
+		limit,
+		page: currentInactiveUserPage,
+		status: filters.status,
+		date: filters.date
+	});
+
+	const res = await fetch(`${baseUrl}/getInActiveUser?${queryParams.toString()}`, {
+		method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	});
+
+	const data = await res.json();
+	const users = data.data;
+
+	console.log('USER DATA', users);
+
+	const list = document.getElementById('userInactivelist');
+	list.innerHTML = '';
+
+
+	if (!data.success || users.length === 0) {
+		list.innerHTML = `<tr><td colspan="7" class="text-center">${data.error}</td></tr>`;
+		document.getElementById('paginationInactiveUser').innerHTML = '';
+		return;
+	}
+
+	users.forEach((item, index) => {
+		list.innerHTML += `
+			<tr>
+				<th scope="row">${(currentInactiveUserPage - 1) * limit + index + 1}</th>
+				<td>${item.firstname}</td>
+				<td>${item.lastname}</td>
+				<td>${item.email}</td>
+				<td>${item.role}</td>
+				<td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+				<td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+				
+				<td>
+					<button class="btn border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					  &#8942;
+					</button>
+					<ul class="dropdown-menu">
+					  <li><a onclick="viewInactiveUser('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#viewInactiveUserModal"> <i class="fas fa-eye me-2 text-warning"></i> View</a></li>
+					  <li><a onclick="editInactiveUser('${item._id}')" class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editInactiveuser"> <i class="fas fa-edit me-2 text-info"></i> Edit</a></li>
+					  <li><a onclick="deleteInactiveUser('${item._id}')" class="dropdown-item" href="#"><i class="fas fa-trash-alt me-2 text-danger"></i> Delete</a></li>
+					</ul>
+				</td>
+			</tr>
+		`;
+	});
+	totalInactiveUserPages = data.pagination.totalPages;
+	renderInactiveUserPaginationButtons(totalInactiveUserPages);
+}
+
+
+
+function renderInactiveUserPaginationButtons(total) {
+	const pagination = document.getElementById('paginationInactiveUser');
+	pagination.innerHTML = '';
+
+	const prev = document.createElement('li');
+	prev.className = `page-item ${currentInactiveUserPage === 1 ? 'disabled' : ''}`;
+	prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+	prev.onclick = (e) => {
+		e.preventDefault();
+		if (currentInactiveUserPage > 1) fetchInactiveUsers(currentInactiveUserPage - 1);
+	};
+	pagination.appendChild(prev);
+
+	for (let i = 1; i <= total; i++) {
+		const pageBtn = document.createElement('li');
+		pageBtn.className = `page-item ${i === currentInactiveUserPage ? 'active' : ''}`;
+		pageBtn.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+		pageBtn.onclick = (e) => {
+			e.preventDefault();
+			fetchInactiveUsers(i);
+		};
+		pagination.appendChild(pageBtn);
+	}
+
+	const next = document.createElement('li');
+	next.className = `page-item ${currentInactiveUserPage === total ? 'disabled' : ''}`;
+	next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+	next.onclick = (e) => {
+		e.preventDefault();
+		if (currentInactiveUserPage < total) fetchInactiveUsers(currentInactiveUserPage + 1);
+	};
+	pagination.appendChild(next);
+}
+
+document.getElementById('searchInactiveUser')?.addEventListener('keydown', (e) => {
+	if (e.key === 'Enter') {
+		currentInactiveUserPage = 1;
+		fetchInactiveUsers();
+	}
+});
+
+document.getElementById('sortInactiveUsersSelect')?.addEventListener('change', () => {
+	currentInactiveUserPage = 1;
+	fetchInactiveUsers();
+});
+
+function applyFiltersInactiveUser() {
+	filters.status = document.getElementById('userInactiveStatusFilter').value;
+	filters.date = document.getElementById('userInactiveDate').value;
+
+	currentInactiveUserPage = 1;
+	fetchInactiveUsers();
+}
+
+
+
+
+
+
+
+
+
+
 async function deletePost(id) {
 	const result = await Swal.fire({
 		title: 'Are you sure you want to delete this post?',
@@ -681,6 +841,7 @@ async function deletePost(id) {
 async function createPost() {
 	const title = document.getElementById('post-title').value
 	const description = document.getElementById('post-description').value
+	const image = document.getElementById('post-image').files[0];
 
 	const res = await fetch(`${baseUrl}/addPost`, {
 		method: 'POST',
@@ -688,7 +849,7 @@ async function createPost() {
 			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({ title, description })
+		body: JSON.stringify({ title, description, image })
 	})
 
 	const data = await res.json()
@@ -706,6 +867,7 @@ async function createPost() {
 			$('#exampleModal').modal('hide');
 			document.getElementById('title').value = ""
 			document.getElementById('description').value = ""
+			document.getElementById('image').value = ""
 		});
 	} else {
 		Swal.fire({
@@ -1023,6 +1185,61 @@ async function deleteUser(id) {
 
 
 
+
+
+async function deleteInactiveUser(id) {
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this user?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	});
+
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deleteUser/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		});
+
+		const data = await res.json();
+
+		if (res.ok) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Deleted Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			}).then(() => {
+				fetchInactiveUsers();
+			});
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Failed to delete tag',
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			});
+		}
+	}
+}
+
+
+
+
+
+
+
+
 async function deletePages(id) {
 	const result = await Swal.fire({
 		title: 'Are you sure you want to delete this page?',
@@ -1183,6 +1400,47 @@ async function editUser(id) {
 	}
 }
 
+
+
+
+
+async function editInactiveUser(id) {
+	const res = await fetch(`${baseUrl}/editUserById/${id}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const user = data.data[0]
+		document.getElementById('edit-Inactiveuser-id').value = user._id
+		document.getElementById('edit-Inactiveuser-firstname').value = user.firstname
+		document.getElementById('edit-Inactiveuser-lastname').value = user.lastname
+		document.getElementById('edit-Inactiveuser-email').value = user.email
+		document.querySelector('.editrole').value = user.role
+		document.getElementById('edit-Inactiveuser-status').checked = user.status
+		document.getElementById('edit-Inactiveuser-admin').checked = user.Admin
+
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete post: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+
+
+
+
 async function editTag(id) {
 	const res = await fetch(`${baseUrl}/editTagById/${id}`, {
 		method: 'GET',
@@ -1266,6 +1524,12 @@ document.getElementById('editUserForm').addEventListener('submit', function (e) 
 	e.preventDefault()
 	const id = document.getElementById('edit-user-id').value
 	updateUser(id)
+})
+
+document.getElementById('editInactiveUserForm').addEventListener('submit', function (e) {
+	e.preventDefault()
+	const id = document.getElementById('edit-Inactiveuser-id').value
+	updateInactiveUser(id)
 })
 
 async function updatePost(id) {
@@ -1438,6 +1702,58 @@ async function updateUser(id) {
 
 }
 
+
+
+async function updateInactiveUser(id) {
+	const firstname = document.getElementById('edit-Inactiveuser-firstname').value
+	const lastname = document.getElementById('edit-Inactiveuser-lastname').value
+	const email = document.getElementById('edit-Inactiveuser-email').value
+	const status = document.getElementById('edit-Inactiveuser-status').checked
+	const admin = document.getElementById('edit-Inactiveuser-admin').checked
+
+	const res = await fetch(`${baseUrl}/updateUser/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ firstname, lastname, email, status, admin })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update User Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			fetchInactiveUsers();
+			$('#editInactiveuser').modal('hide');
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete user: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
+
+
+
+
+
+
+
 async function viewPost(id) {
 
 	const res = await fetch(`${baseUrl}/viewPostById/${id}`, {
@@ -1567,6 +1883,44 @@ async function viewUser(id) {
 	}
 }
 
+
+
+
+async function viewInactiveUser(id) {
+
+	const res = await fetch(`${baseUrl}/viewUserById/${id}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const view = data.data[0]
+
+		document.getElementById('view-Inactiveuser-id').innerHTML = `<strong>ID: </strong> <span> ${view._id} </span>`
+		document.getElementById('view-Inactiveuser-firstname').innerHTML = `<strong>First name: </strong> <span> ${view.firstname} </span>`
+		document.getElementById('view-Inactiveuser-lastname').innerHTML = `<strong>Last name: </strong> <span> ${view.lastname} </span>`
+		document.getElementById('view-Inactiveuser-email').innerHTML = `<strong>Email: </strong> <span> ${view.email} </span>`
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete page: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+
+
+
+
+
 function getSearchParamsAndCount() {
 
 	const search = document.getElementById('searchInput').value.trim();
@@ -1590,7 +1944,7 @@ async function countPost(search = "", status = "", date = "") {
 	if (status) queryParams.append("status", status);
 	if (date) queryParams.append("date", date);
 
-	const res = await fetch(`${baseUrl}/countPost?${queryParams.toString()}`, {
+	const res = await fetch(`${baseUrl}/countPublishedPost?${queryParams.toString()}`, {
 		method: 'GET',
 		headers: {
 			'Authorization': `${tokenType} ${access_Token}`
@@ -1722,7 +2076,7 @@ async function countTag(search = "", status = "", date = "") {
 
 
 async function getRole(dropdownselector) {
-	
+
 	const res = await fetch(`${baseUrl}/getRole`, {
 		method: 'GET',
 		headers: {
@@ -1734,17 +2088,17 @@ async function getRole(dropdownselector) {
 
 	const role = data.data
 
-	const rolelist = document.querySelector(dropdownselector) 
+	const rolelist = document.querySelector(dropdownselector)
 
 	rolelist.innerHTML = '';
 
 	if (!data.success || !data.data || data.data.length === 0) {
-			 const errorRow = `<option disabled selected>${data.error || "No record found"}</option>`;
-			  rolelist.innerHTML = errorRow
-			return ;
+		const errorRow = `<option disabled selected>${data.error || "No record found"}</option>`;
+		rolelist.innerHTML = errorRow
+		return;
 	}
 
-  rolelist.innerHTML = `<option value="" disabled selected>Select Role</option>`;
+	rolelist.innerHTML = `<option value="" disabled selected>Select Role</option>`;
 
 	role.forEach((item, index) => {
 		rolelist.innerHTML += `
@@ -1752,3 +2106,160 @@ async function getRole(dropdownselector) {
 			`
 	})
 }
+
+
+
+
+
+
+
+
+
+
+
+async function fetchlogs(page = 1) {
+
+	currentlogPage = page;
+
+	const queryParams = new URLSearchParams({
+		page: currentlogPage,
+		limit
+	});
+
+	const res = await fetch(`${baseUrl}/getLogs?${queryParams.toString()}`, {
+		method: "GET",
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	const log = data.data
+
+	console.log('FETCH DATA', log);
+
+
+	const list = document.getElementById('loglist')
+
+	list.innerHTML = '';
+
+	if (!data.success || log.length === 0) {
+		list.innerHTML = `<tr><td colspan="7" class="text-center">${data.error}</td></tr>`;
+		document.getElementById('paginationlog').innerHTML = '';
+		return;
+	}
+
+	log.forEach((item, index) => {
+
+		list.innerHTML += `
+		  <tr>
+              <th scope="row">${(currentlogPage - 1) * limit + index + 1}</th>
+              <td>${item.user_id && item.user_id.username ? item.user_id.username : '----------'}</td>
+              <td>${item.login_time ? new Date(item.login_time).toLocaleTimeString() : '----------'}</td>
+              <td>${item.logout_time ? new Date(item.logout_time).toLocaleTimeString() : '----------'}</td>
+			  <td>${new Date(item.createdAt).toISOString().split('T')[0]}</td>
+			  <td>${new Date(item.updatedAt).toISOString().split('T')[0]}</td>
+            </tr>
+		`;
+	})
+	totallogPages = data.pagination.totalPages;
+	renderLogsPaginationButtons(totallogPages);
+
+}
+
+
+
+
+function renderLogsPaginationButtons(total) {
+	const pagination = document.getElementById('paginationlog');
+	pagination.innerHTML = '';
+
+	const prev = document.createElement('li');
+	prev.className = `page-item ${currentlogPage === 1 ? 'disabled' : ''}`;
+	prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+	prev.onclick = (e) => {
+		e.preventDefault();
+		if (currentlogPage > 1) fetchlogs(currentlogPage - 1);
+	};
+	pagination.appendChild(prev);
+
+	function createPageButton(page) {
+		const pageBtn = document.createElement('li');
+		pageBtn.className = `page-item ${page === currentlogPage ? 'active' : ''}`;
+		pageBtn.innerHTML = `<a class="page-link" href="#">${page}</a>`;
+		pageBtn.onclick = (e) => {
+			e.preventDefault();
+			fetchlogs(page);
+		};
+		pagination.appendChild(pageBtn);
+	}
+
+	let maxVisible = 5;
+	let startPage = Math.max(1, currentlogPage - 2);
+	let endPage = Math.min(total, currentlogPage + 2);
+
+	if (endPage - startPage < maxVisible - 1) {
+		if (startPage === 1) {
+			endPage = Math.min(total, startPage + maxVisible - 1);
+		} else if (endPage === total) {
+			startPage = Math.max(1, endPage - maxVisible + 1);
+		}
+	}
+
+	if (startPage > 1) {
+		createPageButton(1);
+		if (startPage > 2) {
+			const dots = document.createElement('li');
+			dots.className = 'page-item disabled';
+			dots.innerHTML = `<a class="page-link">...</a>`;
+			pagination.appendChild(dots);
+		}
+	}
+
+	for (let i = startPage; i <= endPage; i++) {
+		createPageButton(i);
+	}
+
+	if (endPage < total) {
+		if (endPage < total - 1) {
+			const dots = document.createElement('li');
+			dots.className = 'page-item disabled';
+			dots.innerHTML = `<a class="page-link">...</a>`;
+			pagination.appendChild(dots);
+		}
+		createPageButton(total);
+	}
+
+	const next = document.createElement('li');
+	next.className = `page-item ${currentlogPage === total ? 'disabled' : ''}`;
+	next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+	next.onclick = (e) => {
+		e.preventDefault();
+		if (currentlogPage < total) fetchlogs(currentlogPage + 1);
+	};
+	pagination.appendChild(next);
+}
+
+
+
+
+function previewImage(event) {
+	const file = event.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = function (e) {
+			const preview = document.getElementById('image-preview');
+			preview.src = e.target.result;
+			preview.style.display = 'block';
+		}
+		reader.readAsDataURL(file);
+	}
+}
+
+
+
+
+
+
+

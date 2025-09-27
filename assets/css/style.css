@@ -8467,3 +8467,38 @@ a[data-toggle="collapse"] {
   background: transparent;
     border-color: transparent;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.nav-pills .nav-link {
+  margin-right: 8px; /* dono button ke darmiyan gap */
+  border-radius: 6px; /* thoda gol corners */
+  background-color: rgb(33, 33, 33);
+  color: #FFFFFF;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #465367; /* hover pe bg change */
+  color: #FFFFFF; /* hover pe text ka rang */
+}
+
+.nav-pills .nav-link.active {
+  background-color: #465367 !important;/* active tab ka bg */
+  color: #FFFFFF; /* active tab ka text */
+}
+
+
+
+
+
+
+
