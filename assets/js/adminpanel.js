@@ -36,8 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	countUser()
 	countPages()
 	countTag()
+	viewProfile()
+	editProfile()
 	getRole('.addrole')
 	getRole('.editrole')
+	getRole('.inactiverole')
 
 })
 
@@ -893,7 +896,7 @@ async function createUser() {
 	const email = document.getElementById('email').value;
 	const password = document.getElementById('password').value;
 	const confirmPass = document.getElementById('confirm-password').value;
-	const role = document.getElementById('role').value;
+	const role = document.querySelector('.addrole').value;
 
 	// Optionally check if passwords match
 	if (password !== confirmPass) {
@@ -1420,7 +1423,7 @@ async function editInactiveUser(id) {
 		document.getElementById('edit-Inactiveuser-firstname').value = user.firstname
 		document.getElementById('edit-Inactiveuser-lastname').value = user.lastname
 		document.getElementById('edit-Inactiveuser-email').value = user.email
-		document.querySelector('.editrole').value = user.role
+		document.querySelector('.inactiverole').value = user.role
 		document.getElementById('edit-Inactiveuser-status').checked = user.status
 		document.getElementById('edit-Inactiveuser-admin').checked = user.Admin
 
@@ -1664,6 +1667,7 @@ async function updateUser(id) {
 	const email = document.getElementById('edit-user-email').value
 	const status = document.getElementById('edit-user-status').checked
 	const admin = document.getElementById('edit-user-admin').checked
+	const role = document.querySelector('.editrole').value
 
 	const res = await fetch(`${baseUrl}/updateUser/${id}`, {
 		method: 'PUT',
@@ -1671,7 +1675,7 @@ async function updateUser(id) {
 			'Content-Type': 'application/json',
 			'Authorization': `${tokenType} ${access_Token}`
 		},
-		body: JSON.stringify({ firstname, lastname, email, status, admin })
+		body: JSON.stringify({ firstname, lastname, email, status, admin, role })
 	})
 
 	const data = await res.json()
@@ -2259,7 +2263,207 @@ function previewImage(event) {
 
 
 
+async function viewProfile() {
+	const userId = localStorage.getItem('user')
+	const res = await fetch(` ${baseUrl}/viewProfileById/${userId}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const view = data.data[0]
+
+		
+		document.getElementById('view-profile-fullname').innerHTML = `<span> ${view.firstname} ${view.lastname} </span>`
+		document.getElementById('view-profile-email').innerHTML = `<span> ${view.email} </span>`
+		document.getElementById('view-profile-phone').innerHTML = `<span> ${view.phone ? view.phone : '----------' } </span>`
+		document.getElementById('view-profile-address').innerHTML = `<span> ${view.address ? view.address : '----------'} </span>`
+		document.getElementById('deletebutton').innerHTML = ` <button onclick="deleteProfile()" class="btn btn-danger mt-3">
+                            <i class="bi bi-trash-fill me-2"></i>
+                            Delete Account
+                        </button>`
+		
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete profile: ${data.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+
+async function editProfile() {
+	const userId = localStorage.getItem('user')
+	const res = await fetch(` ${baseUrl}/editProfileById/${userId}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `${tokenType} ${access_Token}`
+		}
+	})
+
+	const data = await res.json()
+
+	if (res.ok && data.success && data.data.length > 0) {
+		const view = data.data[0]
+
+		
+		document.getElementById('edit-profile-firstName').value = view.firstname
+		document.getElementById('edit-profile-lastName').value = view.lastname
+		document.getElementById('edit-profile-email').value = view.email
+		document.getElementById('edit-profile-phone').value = view.phone
+		document.getElementById('edit-profile-address').value = view.address
+		
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete profile: ${data.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+}
+
+async function updateProfile() {
+	const userId = localStorage.getItem('user')
+	const phone = document.getElementById('edit-profile-phone').value
+	const address = document.getElementById('edit-profile-address').value
+
+
+	const res = await fetch(`${baseUrl}/updateUserProfile/${userId}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ phone, address })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Profile Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+			
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete Profile: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
 
 
 
+async function deleteProfile() {
+	const userId = localStorage.getItem('user')
+	const result = await Swal.fire({
+		title: 'Are you sure you want to delete this profile?',
+		text: 'You won\'t be able to revert this!',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#d33',
+		cancelButtonColor: '#3085d6',
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'Cancel'
+	})
 
+	if (result.isConfirmed) {
+		const res = await fetch(`${baseUrl}/deleteUserProfile/${userId}`, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `${tokenType} ${access_Token}`
+			}
+		})
+
+
+		const data = await res.json()
+
+		if (res.ok) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Delete Profile Successfully',
+				text: data.message,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			}).then(() => {
+			});
+
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: `Failed to delete profile: ${data.error}`,
+				text: data.error,
+				timer: 2000,
+				showConfirmButton: false,
+				timerProgressBar: true
+			})
+		}
+	}
+}
+
+
+
+async function changePassword() {
+	const userId = localStorage.getItem('user')
+	const oldPassword = document.getElementById('old-password').value
+	const newPassword = document.getElementById('new-password').value
+	const confirmPass = document.getElementById('confirm-pass').value
+
+	const res = await fetch(`${baseUrl}/changePassword/${userId}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${tokenType} ${access_Token}`
+		},
+		body: JSON.stringify({ oldPassword, newPassword, confirmPass })
+	})
+
+	const data = await res.json()
+
+	if (res.ok) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Update Password Successfully',
+			text: data.message,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		}).then(() => {
+		});
+	} else {
+		const err = await res.json();
+		Swal.fire({
+			icon: 'error',
+			title: `Failed to delete user: ${err.error || res.statusText}`,
+			text: data.error,
+			timer: 2000,
+			showConfirmButton: false,
+			timerProgressBar: true
+		})
+	}
+
+}
