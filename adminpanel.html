@@ -840,7 +840,7 @@
 
                       <div class="mb-3">
                         <label for="role" class="col-form-label">Role:</label>
-                        <select class="form-select editrole" aria-label="Default select example">
+                        <select class="form-select inactiverole" aria-label="Default select example">
 
                         </select>
                       </div>
@@ -876,7 +876,6 @@
 
 
 
-            <h3>Inactive Users Section</h3>
             <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam rerum harum, eaque praesentium animi quos
               beatae aliquam recusandae expedita exercitationem debitis dolorem nesciunt? Reiciendis eum at fugiat rerum
               cum tempora pariatur cupiditate maxime? Reprehenderit, sapiente.</p> -->
@@ -1328,7 +1327,7 @@
 
             <!-- Profile Content -->
             <div class="pt-5 ps-4 pb-4 mt-4">
-              <h3 class="mb-0">Muhammad Haris</h3>
+              <h3 class="mb-0">John doe</h3>
               <p class="text-muted">Web Developer | Admin</p>
 
               <!-- Tabs -->
@@ -1355,7 +1354,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
+                        <input readonly type="text" class="form-control" id="edit-profile-firstName" placeholder="Enter first name">
                       </div>
                     </div>
 
@@ -1363,7 +1362,7 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
+                        <input readonly type="text" class="form-control" id="edit-profile-lastName" placeholder="Enter last name">
                       </div>
                     </div>
 
@@ -1371,14 +1370,28 @@
                     <div class="col-md-6 mt-3">
                       <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter Email">
+                        <input readonly type="email" class="form-control" id="edit-profile-email" placeholder="Enter Email">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                      <div class="form-group">
+                        <label for="phone">Phone No.</label>
+                        <input type="phone" class="form-control" id="edit-profile-phone" placeholder="Enter phone no">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                      <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="address" class="form-control" id="edit-profile-address" placeholder="Enter address">
                       </div>
                     </div>
                   </div>
 
                   <!-- Right-aligned blue Submit button -->
                   <div class="d-flex justify-content-end mt-4">
-                    <button class="btn btn-primary">Submit</button>
+                    <button onclick="updateProfile()" class="btn btn-primary">Submit</button>
                   </div>
                 </div>
 
@@ -1407,15 +1420,15 @@
                     <!-- Confirm Password -->
                     <div class="col-md-6 mt-3">
                       <div class="form-group">
-                        <label for="confirm-password">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirm-password">
+                        <label for="confirm-pass">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm-pass">
                       </div>
                     </div>
                   </div>
 
                   <!-- Submit Button -->
                   <div class="d-flex justify-content-end mt-4">
-                    <button class="btn btn-primary">Submit</button>
+                    <button onclick="changePassword()" class="btn btn-primary">Submit</button>
                   </div>
                 </div>
               </div>
@@ -1450,14 +1463,14 @@
 
             <!-- Profile Content -->
             <div class="pt-5 ps-4 pb-4 mt-4">
-              <h3 class="mb-0">Muhammad Haris</h3>
-              <p class="text-muted">Web Developer | Admin</p>
+              <h3 id="view-profile-fullname" class="mb-0"></h3>
+              <p id="view-profile-email" class="text-muted"></p>
+              <p id="view-profile-phone" class="text-muted"></p>
+              <p id="view-profile-address" class="text-muted"></p>
 
-              <div class="mt-4">
-                <p>This is your profile settings page. You can add anything here.</p>
-                <button type="button" class="btn btn-danger">
-                  <i class="fa-solid fa-trash me-2"></i> Delete Account
-                </button>
+              <div class="mt-4" id="deletebutton">
+                <!-- <p>This is your profile settings page. You can add anything here.</p> -->
+               
               </div>
             </div>
           </div>
